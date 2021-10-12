@@ -1,5 +1,8 @@
 "use strict"
 
+const MIN_NUMBER = 1;
+const MAX_NUMBER = 100;
+
 let number = Math.floor(Math.random() * 100);
 
 let doPlayAgain = true;
@@ -7,6 +10,10 @@ let doPlayAgain = true;
 while (doPlayAgain) {
     playGame();
     doPlayAgain = confirm('Играть еще раз?');
+}
+
+function isNumberValid() {
+    return !isNaN(number) && number >= MIN_NUMBER && number <= MAX_NUMBER;
 }
 
 function getUserNumber(tipMassage) {
