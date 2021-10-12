@@ -3,50 +3,60 @@
 const MIN_NUMBER = 1;
 const MAX_NUMBER = 100;
 
-let number = Math.floor(Math.random() * 100);
-
 let doPlayAgain = true;
 
 while (doPlayAgain) {
     playGame();
-    doPlayAgain = confirm('Играть еще раз?');
+
+    doPlayAgain = confirm('Играть еще?');
 }
 
-function isNumberValid() {
+function getRandomValue() {
+    return Math.floor(Math.random() * (MAX_NUMBER - MIN_NUMBER + 1)) + MIN_NUMBER;
+}
+
+function isNumberValid(number) {
     return !isNaN(number) && number >= MIN_NUMBER && number <= MAX_NUMBER;
 }
 
-function getUserNumber(tipMassage) {
+function requestUserNumber(tipMessage) {
     let userNumber;
     let isValid
-
+    
     while (!isValid) {
-        if (tipMassage) alert(tipMassage);
+        if (tipMessage) alert(tipMessage);
 
-        const inputValue = prompt('Угадай число от 1 до 100');
+        const inputValue = prompt(`Введите число от ${MIN_NUMBER} до ${MAX_NUMBER}`, '');
+
         if (inputValue === null) return inputValue;
+
         userNumber = parseInt(inputValue);
-        isValid = userNumber;
+        
+        isValid = isNumberValid(userNumber);
+
+        if (!isValid) alert('Неверное значение!');
     }
-    return userNumber;
+
+    return userNumber;    
 }
 
 function playGame() {
-    const secretNumber = number;
+    const secretNumber = getRandomValue(MIN_NUMBER, MAX_NUMBER);
 
     let userNumber;
-    let tipMassage;
+    let tipMessage;
 
     while(secretNumber !== userNumber) {
-        userNumber = getUserNumber(tipMassage);
+        userNumber = requestUserNumber(tipMessage);
+
+        if (userNumber === null) break;
 
         if (userNumber > secretNumber) {
-            tipMassage = "Много";
+            tipMessage = 'Много!';
         } else if (userNumber < secretNumber) {
-            tipMassage = "Мало";
+            tipMessage = 'Мало!'
         } else {
-            alert("Угадал!!!");
+            alert('Угадал!');
         }
     }
-
 }
